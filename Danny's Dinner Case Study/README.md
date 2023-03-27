@@ -18,9 +18,11 @@ additionally he needs help to generate some basic datasets so his team can easil
 Danny has provided you with a sample of his overall customer data due to privacy issues - but he hopes that these examples are enough for you to write fully functioning SQL queries to help him answer his questions!
 
 Danny has shared with you 3 key datasets for this case study:
+
 i) sales
 
 ii) menu
 
 iii) members
+
 You can inspect the entity relationship diagram and example data below.
