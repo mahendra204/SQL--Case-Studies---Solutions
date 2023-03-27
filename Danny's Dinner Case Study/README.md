@@ -25,4 +25,3 @@ ii) menu
 
 iii) members
 
-You can inspect the entity relationship diagram and example data below.
