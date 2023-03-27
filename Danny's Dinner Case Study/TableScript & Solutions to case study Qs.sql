@@ -32,8 +32,28 @@ select * from members
 
 --problems and solutions--
 --Q1: what is the total amount spent by each customer at restaurent?
-select customer_id, sum(price) as total_amount_spent from menu m inner join sales s on m.product_id = s.product_id group by customer_id order by 
-total_amount_spent desc 
+select s.customer_id, sum(price) as total_amount_spent from menu m join sales s on m.product_id = s.product_id group by customer_id
+order by total_amount_spent desc
 
+--Q2: how many days has each customer visited the restaurent.
+select customer_id,count(distinct(order_date)) no_of_days_visited from sales group by customer_id order by no_of_days_visited desc
 
+--Q3: what was the first item from menu purchased by each customer.
 
+with cte as (
+select *, row_number() over(partition by customer_id order by order_date)as rnk from sales)
+select customer_id, product_name from cte c join menu m on m.product_id = c.product_id where rnk=1 group by 
+customer_id,product_name order by customer_id
+
+--Q4: what is the most purchased item from menu and how many times was it purchased by all customers.
+select m.product_name, count(m.product_name) as no_of_times_purchased from menu m join sales s on s.product_id=m.product_id
+group by m.product_name order by no_of_times_purchased desc
+
+-- Q5: which item was the most popular for each customer
+
+with cte as (
+select customer_id, product_name,count(s.product_id) as no_of_times, DENSE_RANK() over(partition by customer_id order by
+count(s.product_id) desc) as rnk from menu m join sales s on s.product_id = m.product_id group by customer_id,product_name) 
+select customer_id,product_name,no_of_times from cte where rnk=1
+
+ 
