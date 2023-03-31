@@ -89,7 +89,11 @@ join menu m on m.product_id = s.product_id group by customer_id
 --Q10: in a first week after customer joins the program(including their join date) they earn 2x points on all items,
 -- not just sushi, how many points do custome A and B have at the end of january?
 
- 
+select s.customer_id,sum(case when m.product_name='Sushi' then 20*m.price
+	when (DATEDIFF(day,order_date,join_date)) between 0 and 6 then 20*m.price
+	else 10*m.price end) as loyalti_points from sales s, menu m, members ms
+	where s.product_id=m.product_id and s.customer_id=ms.customer_id and month(order_date)=1 group by s.customer_id order by s.customer_id
+
 ---join all tables and observing the result and from which we can understand easily.
 with cte as (select customer_id,product_name,order_date,price
  from menu join 
