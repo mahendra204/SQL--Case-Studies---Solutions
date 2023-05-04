@@ -6,3 +6,5 @@ problem solving ability, can think in such way that it matches to the real world
 
 I strongly believe that solving case studies will gives us the confidence to solve any real world problems, imporves the ability handle complex problems and those skills are much needed in present
 Data and many data profile roles.
+
+Thanks for visiting. keep learning.
