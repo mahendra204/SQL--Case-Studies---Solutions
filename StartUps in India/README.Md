@@ -1,4 +1,4 @@
-#Data Analysis of Startups in India.  The following list of insights that we are going to extract. 
+#Data Analysis of Startups in USA.  The following list of insights that we are going to extract. 
 
 1. Calculate the total number of companies in the table.
 2. We want to know the total value of all companies.
