@@ -1,3 +1,4 @@
+To Support me: https://ko-fi.com/kamireddymahendra
 # SolvingQs_Case_Studies_using_SQL
 
 solving case studies is the best way to learn and practice SQL queries, solving case studies using any tool will helps us to imporve several qualities like,
