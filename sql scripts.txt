@@ -1,0 +1,120 @@
+CREATE TABLE EmployeeDemographics (
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(50),
+    JobTitle VARCHAR(50)
+);
+
+select * from EmployeeDemographics
+
+-- Insert values into EmployeeDemographics table
+INSERT INTO EmployeeDemographics (EmployeeID, Name, JobTitle) VALUES
+(1, 'John Smith', 'Software Engineer'),
+(2, 'Emily Brown', 'Data Analyst'),
+(3, 'Michael Lee', 'Software Engineer'),
+(4, 'Sarah Clark', 'Project Manager'),
+(5, 'David Davis', 'Software Engineer'),
+(6, 'Lisa Green', 'Data Analyst');
+
+CREATE TABLE EmployeeSalary (
+    EmployeeID INT PRIMARY KEY,
+    Salary DECIMAL(10, 2),
+    FOREIGN KEY (EmployeeID) REFERENCES EmployeeDemographics(EmployeeID)
+);
+
+
+select * from EmployeeSalary 
+
+
+-- Insert values into EmployeeSalary table
+INSERT INTO EmployeeSalary (EmployeeID, Salary) VALUES
+(1, 60000),
+(2, 48000),
+(3, 55000),
+(4, 65000),
+(5, 60000),
+(6, 50000);
+
+select e.employeeid, e.name, e.jobtitle, s. salary from 
+EmployeeDemographics  e join EmployeeSalary s on 
+e.employeeid=s.employeeid
+
+select e.jobtitle, count(e.jobtitle), avg(s.salary) from EmployeeDemographics e
+join EmployeeSalary s on e.employeeid=s.employeeid
+group by jobtitle having avg(s.salary) >= 50000 order by
+avg(s.salary) asc
+
+
+-- Create EmployeeDemographics table
+CREATE TABLE Employee1 (
+    EmployeeID INTEGER PRIMARY KEY,
+    FirstName TEXT,
+    LastName TEXT,
+    Age INTEGER
+);
+
+-- Insert sample values into EmployeeDemographics table
+INSERT INTO Employee1 (FirstName, LastName, Age) VALUES
+('John', 'Smith', 25),
+('Emily', 'Brown', 29),
+('Michael', 'Lee', 32),
+('Sarah', 'Clark', 35),
+('David', 'Davis', 28),
+('Lisa', 'Green', 26);
+
+SELECT  * from employee1
+
+with cte as(
+select *, case 
+	      when age between 0 and 26 then 'teen_aged' 
+		  when age between 27 and 30 then 'youth'
+		  when age between 31 and 35 then 'old'
+	else 'senior citizen' end as age_group from employee1 
+where age is not null order by age desc)
+
+select *, rank() over(partition by age_group order by age desc) 
+as rnk from cte 
+
+
+-- Create Empp table
+CREATE TABLE Empp (
+    EmployeeID INTEGER PRIMARY KEY,
+    FirstName TEXT,
+    LastName TEXT,
+    JobTitle TEXT
+);
+
+-- Create EmppSalary table
+CREATE TABLE EmppSalary (
+    EmployeeID INTEGER PRIMARY KEY,
+    Salary DECIMAL(10, 2)
+);
+
+-- Insert sample values into EmployeeDemographics table
+INSERT INTO Empp (EmployeeID, FirstName, LastName, JobTitle) VALUES
+(1, 'John', 'Smith', 'Salesman'),
+(2, 'Emily', 'Brown', 'Accountant'),
+(3, 'Michael', 'Lee', 'HR'),
+(4, 'Sarah', 'Clark', 'Manager');
+
+-- Insert sample values into EmployeeSalary table
+INSERT INTO EmppSalary (EmployeeID, Salary) VALUES
+(1, 50000),
+(2, 60000),
+(3, 70000),
+(4, 80000);
+
+select * from empp
+select * from EmppSalary 
+
+select a.*, b.salary, case 
+	when jobtitle = "salesman" then b.salary - (0.2 * b.salary)
+	when jobtitle = "accountant" then b.salary - (0.1 * b.salary)
+	when jobtitle = "HR" then b.salary - (0.3 * b.salary)
+	else b.salary - (0.5 * b.salary) 
+end
+as apprisal_sal 
+from empp a join EmppSalary b on a.employeeid = b.employeeid
+
+
+
+
