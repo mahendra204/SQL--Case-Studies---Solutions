@@ -13,6 +13,8 @@ Data Analyst Interview — Case Study Solution: https://medium.com/illumination/
 
 Dive into SQL Interview Questions from Leading MAANG Companies: https://medium.com/towards-artificial-intelligence/unlocking-the-gates-to-success-dive-into-sql-interview-questions-from-leading-maang-companies-bb35dceb0d19
 
+SQL Data Analysis Project - https://medium.com/towards-artificial-intelligence/a-data-analysis-project-smart-phones-data-analysis-381ed9be26ff
+
 SQL Interview Questions for Data Engineer Interview: https://medium.com/stackademic/sql-interview-questions-for-data-analyst-or-data-engineer-interview-5f26fb6afc06
 
 SQL Use Case — Data Engineer Interview: https://medium.com/stackademic/sql-case-study-customer-sales-analysis-6be0f1196ba0
