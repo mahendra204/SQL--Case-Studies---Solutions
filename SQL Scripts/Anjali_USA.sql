@@ -1,0 +1,1526 @@
+
+
+
+---SQL Commands
+================
+DDL ---> create, alter, truncate, drop
+
+DML ---> insert, update, delete
+
+DRL(DQL)---> select 
+
+DCL  ---> grant, revoke
+
+TCL ---cmmit, rollback
+
+
+-- create database anjali; 
+use anjali;
+
+----fact, measured
+=============================
+10, 3.0, name, M, F,.........
+
+'mahaendra'
+'mahi'
+
+
+int, float, char(1), varchar(20), decimal(3, 6), datetime, date,........
+
+
+create table employees(id int, name varchar(20), age int, salary float, department varchar(20))
+
+select * from employees 
+
+-- 
+alter table employees add address1 varchar(30)
+
+alter table employees drop column age 
+
+drop table employees
+
+alter table employees alter column address varchar(50)
+
+sp_rename 'employees', 'employees_info'
+
+exec sp_rename 'employees.employees.emp_id', 'employees.id', 'column'
+
+alter table employees drop column emp_id 
+
+drop table employees 
+
+select * into emp from employees 
+
+
+DML
+-------
+insert, update, delete
+
+select * from employees 
+
+select id, name, age from employees 
+
+insert into employees values (2, 'ama', 46, 9288)
+
+insert into employees (id, name, age) values(3, 'mahi', 55)
+
+insert into employees (id, salary, department) values 
+(4, 69999, 'data')
+
+update employees set name = 'mahi' where department = 'data'
+
+
+select * from employees 
+
+update employees set name = 'mahendra', age = 98 where 
+department is null 
+
+update employees set department = 'Data Science' where department
+is null
+
+delete employees where salary is null 
+
+select * from employees 
+
+select * into emps from employees 
+
+delete emps 
+
+select * from emps 
+
+truncate table employees
+
+
+select * from sys.databases
+
+select * from information_schema.tables 
+where table_name = 'emp'
+
+select * from emps
+
+insert into emps values(1, 'somehing', 30, 38383, 'data'),
+(2, 'nothing', 44, 44444, 'data analytics'),
+(3, 'mahi', 55, 55000, 'science')
+
+alter table emps add location varchar(20)
+
+insert into emps(location) values ('USA')
+
+update emps set location  = 'US' where department = 'data'
+and age < 50
+
+
+update emps set location = 'UJ' where department  in ('data', 
+'data analytics')
+
+
+select * from emps 
+
+update emps set id=20, name = 'mahendra', age = 34, salary = 3333
+where location = 'UK' and name is null
+
+
+DDL==> Data Definition language (Create, alter, drop, truncate)
+DML ==> Data manipulation lang(Insert, update, delete)
+DRL ==> Select
+TCL ===> delete, insert, update (rollback, commit)
+DCL ==> Grant, Revoke  ---> role, username, password----> grant create, inser,
+---up on dbs, tble revoke
+
+--- create bank===> credit, withdrawl, checking balance, ..............
+
+select * from emps 
+
+begin transaction
+update emps set location = 'Ind'
+
+rollback
+
+insert into emps1 
+select * from emps 
+
+select * into emps1 from emps where 1=2
+
+select * from emps1 
+
+begin transaction
+alter table emps add city varchar(20)
+
+select * from emps 
+
+begin transaction 
+insert into emps(id, name) values (4, 'sam')
+
+
+commit
+
+
+rollback 
+
+--Constraints:
+------------------
+-- null = null
+null, not null, unique, primary key, foreign key, check, default
+
+
+(id, name, salary) is primary key
+
+1, 'mahi', 33000
+1, 'mahendra', 3000
+1, 'mahendra', 3000
+
+id pk, name pk  ===> not possible 
+1, 'mahi'
+2, 'mahi'
+
+
+--denormalized data
+-- normalized data
+
+users
+123
+
+order
+4
+
+payements 
+
+user_id, uer_name, user_details,  order_id, order_date, order_amount.., cash, credt, wallet,..
+100 
+
+create schema u
+
+------surrogate key
+=======================
+create table u.products(id int identity(1009, 187), name varchar(20))
+
+insert into products values ('pen'), ('laptop')
+
+select * from products 
+
+
+
+use anjal
+
+select * from information_schema.tables 
+
+create table empss (id int not null, name varchar(20) unique,
+salary int null, location varchar(20) not null, age int check(age>20))
+
+insert into empss values(1, 'mahendra12', 30000, 'Ind', 21)
+
+select * from empss 
+
+create table emp1(id int primary key, name varchar(20), 
+salary int, age int check(age>18), 
+dept_id int,
+location varchar(20) default 'USA', 
+foreign key(dept_id) references departments(id))
+
+create table departments (id int primary key, name varchar(20))
+
+drop table emp1 
+
+select * from emp1 
+
+insert into emp1 (id, name, salary, age, dept_id)
+values(6, 'mahana2', 33600,57, 400)
+
+insert into departments values (100, 'Data Analytics')
+,(200, 'Data Engineering'), (300, 'Data Science')
+,(400, 'Software')
+
+drop table departments 
+
+
+select a.*, d.name from emp1 a join departments d
+on a.dept_id = d.id
+
+
+select * from departments 
+
+where, group by, having , order by, over(), partition by, distinct, top n,.....
+
+select * from emp1 where salary > 45000
+
+update emp1 set age = 56 where location = 'Ind'
+
+
+select * from emp1 
+
+delete from emp1 where location = 'ind'
+
+alter table 
+
+
+delete from emp1 a where id = 6
+
+update emp1 set name = 'ug' where id = 5 or name is null
+
+select * from emp1 
+
+select location, count(id) as number_of_emps,
+sum(salary) as total_salary, 
+min(salary) as min_sal, max(salary) as max_salary, 
+avg(salary) as avg_sal 
+from emp1 group by location 
+
+
+
+1, USA     ====> 1, USA ==> 2
+2, USA
+1, USA   --- > USA ==> 3
+3, Uk
+4, Uk
+
+select location, count(id) as number_of_emps
+from emp1 group by location
+
+
+select dept_id, count(id), sum(salary), avg(salary), 
+min(salary)
+from emp1 where id !=3
+group by dept_id
+having dept_id = 400 or dept_id = 200
+
+---- from, join, where, group by, having, select, order by, topn..
+
+select * from tablename where group by having order
+
+select distinct name,id, count(id) from emp1
+group by name, id
+
+select top 1 * from emp1 order by salary desc, name, id desc
+
+
+---------
+Basics, 
+SQL Commands --> DDL, DML, DCL, DRL, TCL
+constraints --> Null, Not null, unique, pk, fk, default, check
+clauses ---> where, groupby, having, orderby, top n, partition by, over(), 
+
+logical SQL query ======> from, join, where, group by, having, select, order by, ...
+---> copy commands
+
+------created multiple schema (dbo, ......)
+
+select * from emps  --DRL
+
+select * from edufulness.dbo.employees 
+
+---copy command & cross database queries
+select * into target_table
+from source_table
+
+select * into employees_details ----without using anjali
+from edufulness.dbo.employees
+
+select * into anjali.dbo.employees_info ----with using anjali
+from edufulness.dbo.employees
+
+----Operators
+--------------------
+---Arithmetic (+, -, /, %, *)
+---String (like, not like)
+---logical (or, and, not)
+---range  (between, not between)
+--comparision (=, !=, >, <, >=, <=)
+--- special (in, not in, is, is not)
+
+i) Arithmetic
+------------------
++, -, /, %, *
+
+select * from employees_info 
+
+select *, age+90 as updated_age from employees_info 
+
+alter table employees_info add updated_age int
+
+update employees_info set updated_age = age + 10
+
+alter table employees_info drop column updated_age 
+
+select *, salary % 10 as updated_salary from employees_info 
+
+select * from employees_info where id%2 !=0
+
+select *, salary + salary * 20/100 as updated_salary
+from employees 
+
+select *, age + age * 15/100 as updated_age from employees_info 
+
+select *, age*1.15 as updated_age from employees_info
+
+select *, age/1.17 from employees_info 
+
+select *, age - age * 17/100 from employees_info 
+age(1-0.17)
+age * .83
+
+1.35*salary
+0.78 * salary
+
+String operators
+================
+select * from employees_info  where name  not like 'h%'
+
+select * from employees_info where department like '%_t%'
+
+select * from employees_info where department not in ('data science', 
+'data engineering')
+
+select * from employees_info where department like 'f'
+
+_ ==> 
+%===> 
+a==> 
+
+Logical
+===========
+----and, or, not
+=====================
+
+select * from employees_info where salary != 56000
+
+select * from
+employees_info where salary > 78000 or department = 'data engineering'
+
+select * from employees_info 
+
+update employees_info set name = 'something' where 
+department = 'Data Engineering' and salary > 65000 
+or location = 'Chennai' and salary > 55000
+
+delete from employees_info where department not like 'S%'
+and location like 'B%' and salary > 80000 
+
+select * from employees_info 
+
+---update, select, delete
+
+like, not like -----string operators
+
+value%===> value/100
+
+select * from employees_info 
+
+select salary - salary * 10/100 from employees_info 
+
+
+update employees_info set salary = salary * 0.9
+where department = 'Data engineering'
+
+--- range operators
+======================
+---between, not between
+
+select * from employees_info where salary not between 54000 and 75000
+and age between 39 and 60 and location = 'Bangalore'
+
+begin transaction
+delete from employees_info where salary between 60000 and 80000
+and department = 'data science'
+
+
+update employees_info set salary = salary * 1.1 where age between 
+20 and 50
+
+----comparision operators
+=============================
+select * from employees_info 
+
+select * from employees_info where salary <= 48000
+
+
+insert into employees_info values (10, 'yogi', 
+null, null, null, 'Chennai', null)
+
+rollback 
+
+--special operators
+---------------------
+
+select * from employees_info  where name is not null
+
+select * from employees_info where name in ('upesh')
+
+
+1millinon
+10 dept
+4 dept
+
+select * from table_name where dept like or 
+
+select * from employees_info 
+
+select count(*), department from employees_info 
+group by department 
+
+select count(distinct department)
+from employees_info 
+
+
+select * from employees_info where department like 'data a%'
+or department like 'data e%' or department like 'S%' or 
+department like 'f%'
+
+select * from employees_info where department not in 
+('data engineering', 'data analysis', 'software', 'finance')
+
+------------
+System defined functions
+===========================
+a, b, c
+
+f(a,b,c) = a+b+c==> a*b*c
+
+g(x) ==> x*x
+g(y) == y-3
+
+----
+arithmetic functions
+string function
+aggregate functions
+datetime functions
+
+
+-----------agg.functions
+=========================
+select * from employees_info 
+
+select count (distinct id) from employees_info 
+
+select count(*), id, name, salary, location from employees_info
+group by id, name, salary, location
+
+insert into employees_info(id, name) values (3, 'upesh'), (10, 'yogi')
+
+
+Mysql, postgres ---limit, offset
+
+10 ======> limit 5 offset 2 
+
+top n
+---------
+
+----sum, min, max, avg, count
+--------------------------------
+select * from employees_info 
+
+select department,location, id, sum(salary) from employees_info 
+where department is not null
+group by department, location, id
+
+
+
+
+select department,location, avg(salary) average_salary
+from employees_info 
+where department is not null 
+group by department, location  having avg(salary) > 60000
+
+select id, name, min(salary), count(*) from employees_info group by id, name
+
+
+---mathematical functions
+--------------------------
+select floor(9.9999)
+
+select ceiling(9.000000001)
+
+select abs(1.88-4.88)
+
+
+select round(sqrt(8.33), 3)
+
+select * from employees_info 
+
+select cast(avg(salary) as float) from employees_info 
+
+update employees_info set salary = salary * 1.2445 
+
+select round(sqrt(avg(cast(salary *1.12 as float))), 2) from employees_info 
+
+select sqrt(salary) from employees_
+
+select round(3.8275, 3)
+
+select pi()
+
+select sin(30)
+
+select cos(30)
+
+select power(3,4)
+
+select sqrt(4.87)
+
+---string functions
+---------------------
+
+select concat('mahi', 'maha')
+
+|| || ---postgres, mysql
+
+select concat(name, '%', department)
+from employees_info 
+
+select len('mahendra')
+
+select len(name) from employees_info 
+
+select * from employees_info where len(name) <=5 
+
+select substring('mahendra', 2, len('mahendra'))
+
+select substring('mahendra', -2, len('mahendra'))
+
+select ltrim(' mahendra  ')
+
+select len(('  mahendra  '))
+
+select len(rtrim('mahendra  '))
+
+
+select substring(name, 3, len(name)) from employees_info 
+
+
+select left('mahendra', 4)
+
+select right('mahendra', 2)
+
+Location_idRegion
+
+'USA America' 
+'IND Asia'
+'SA Africa'
+
+select reverse('mahendra')
+
+select Ascii('a')
+select ascii('b')
+select ascii('c')
+select ascii('z') - ascii('Z')
+
+
+select ascii('A')
+select ascii('Z')
+
+select char(97)
+
+select char(25)
+
+full_name ----> first_name, last_name
+
+'mahendra kamireddy'
+'mahi hari'
+
+select left('mahendra kamireddy', 
+
+select substring('mahendra', 3, 4)
+
+select substring('mahendra kamireddy', 1, 8) as first_name, 
+substring('mahendra kamireddy', 10, 18) as last_name
+
+select charindex('a', 'mahendra')
+
+select charindex('a', 'mahendra', charindex('a', 'mahendrayya')+1)
+
+select charindex(' ', 'mahendra kamireddy')
+
+full_name
+---------
+'mahendra kamireddy'
+'mahi hari'
+'yari ma'
+
+select substring('mahi hari', 1, charindex(' ', 
+'mahi hari')-1) as first_name,
+substring('mahi hari', charindex(' ', 
+'mahi hari')+1, len('mahi hari')) as last_name
+
+select * from employees_info 
+
+select * from (
+select *, concat(name, ' ', location) as name_location 
+from employees_info )a
+
+alter table employees_info add name_location varchar(20)
+
+update employees_info set name_location = concat(name, ' ', location)
+
+select *, substring(name_location, 1, charindex(' ',name_location)-1)
+as name1, substring(name_location, charindex(' ', name_location)+1,
+len(name_location)) as location1 from employees_info 
+
+
+alter table employees_info drop column name_location
+
+select stuff('mahendra', 1, 7, 'yogesh')
+
+select replace('mahendra is doing something', 'is', 'nothing')
+
+----------------
+date time functions
+----------------------
+select getdate()
+
+select month(getdate())
+select day(getdate())
+select year(getdate())
+
+select day('04-25-2020')
+
+select datepart(day, getdate())
+select datepart(month, getdate())
+select datepart(year, getdate())
+
+select datename(month, getdate())
+select datename(weekday, getdate())
+select datepart(week, getdate())
+select datename(year, getdate())
+
+select dateadd(month, 20, getdate())
+select dateadd(day, 30, getdate())
+-- select dateadd(day, 30, colunmn_name) from table_name
+
+select dateadd(year, 30, '04-25-1999')
+
+select dateadd(month, 23, getdate())
+
+select datediff(year, getdate(), '2027-04-20')
+
+select datediff(day, getdate(), '2027-04-20')
+
+select datediff(month, getdate(), '2027-04-20')
+
+select to_char() --postgre
+
+select date_format()
+
+select format(getdate(), 'dd-MM-yyyy hh:mm:ss')
+select format(getdate(), 'dd*MM*yyyy hh:mm:ss')
+
+select format(getdate(), 'MM-dd')
+
+select getdate()
+
+-- select datepart(month, purchase_date) from table_name
+
+
+---agg, math, string, datetime
+
+---------------
+Set opearators
+-------------------------
+union, union all, except, intersect
+-------------------------------------
+a====> id, 1,2,3,
+b===> id, 2,3,5,6
+c===> 
+
+select * from employees_details 
+
+select * from employees_info 
+
+
+select id, name, salary, department from employees_info 
+union all
+select id, name, salary, department from employees_details
+union all
+select * from abc 
+
+
+select id, name from employees_info
+
+select id, name from employees_info
+except
+select id, name from employees_details 
+
+
+select id, name from employees_details 
+except
+select id, name from employees_info
+
+select id, name from employees_details
+intersect
+select id, name from employees_info
+
+
+select * from abc 
+
+
+A={1,2,3}
+B = {2, 4, 6}
+
+A except B ==> A-B ==> {1,3}
+B-A ==> {4,6}
+
+
+----------------------
+set operators, functions, operators
+
+--------------------
+joins
+-----------
+----denormalized (users, orders, products, payments)
+
+user---> 100times
+
+--- normalized 
+
+select * from employees_details 
+
+select * from departments 
+
+update employees_details set department = 100 where
+
+---------case when
+
+update employees_details set department = 
+case 
+	when department = 'Data Engineering' then 100
+	when department = 'Data Science' then 200
+	when department = 'Data Analysis' then 300
+	when department = 'Finance' then 400
+	else 500
+
+select *, 
+case when department = 100 then 'Data Engineering'
+	when department = 200 then 'Data Science'
+	else 'Finance'
+end as department_
+from employees_details 
+end
+
+select * from employees_details 
+
+select age_group, count(id) as number_of_employees from 
+(select *, case when age between 25 and 30 then 'Young age'
+			when age between 31 and 50 then 'Middle age'
+			when age between 51 and 70 then 'Old age'
+			else 'Senior_citizen' end  as age_group
+from employees_details)a 
+group by age_group
+
+
+----two select, changing original
+
+alter table employees_details add age_group varchar(20)
+
+update employees_details set age_group = 
+case when age between 25 and 30 then 'Young age'
+			when age between 31 and 50 then 'Middle age'
+			when age between 51 and 70 then 'Old age'
+			else 'Senior_citizen' 
+	end 
+
+
+select * from employees_details 
+
+select * from departments 
+
+---select * from table1 a join table2 b on a.column1 = b.column2
+
+-----------------
+inner, outer(left, right, full), cross, slef
+
+insert into departments values (500, 'Data'), (600, 'Finance')
+
+select department from(
+
+select e.name as emp_name,d.department as depatrment_name
+from employees_details as e inner join departments d 
+on e.department = d.id
+
+)a
+
+select * from employees_details 
+
+select * from departments 
+
+--- equi joins
+ ---select * from employees_details a, departments b where a.department = b.id
+
+ select * from employees_details a join departments b on 
+ a.department = b.id
+
+ insert into employees_details values(9, 'maha', 54, 800, 46000, 
+ 'Hyd', null)
+
+ select a.*, b.id as dept_id, b.department as dept_name from employees_details a 
+ left join departments b on 
+ a.department = b.id where b.id is null
+
+
+
+ select * from employees_details where department not in
+ (select id from departments)
+
+  select * from departments where id not in
+ (select department from employees_details)
+
+  select a.*, b.id as dept_id, b.department as dept_name from employees_details a 
+ right join departments b on 
+ a.department = b.id 
+ ---where a.id is null
+
+---select a.country, count(distinct a.customer_id), sum(distinct case when age>=25 then 1 else 0 end) from customers a join orders b on 
+--a.customer_id = b.customer_id
+--group by a.country
+
+employees
+=============
+a, b, c,......
+
+
+select * from employees_details 
+
+alter table employees_details add mgr_id int
+
+update employees_details set mgr_id = 
+case when id%2=0 and id > 5 then 4
+	when id%2=0 then 3
+	when id%2!=0 and id>=5 then 2
+	else 1 end 
+
+	a=b
+	b!=a
+	-- all managers are employees to organi
+	---all employees won't be managers
+	magr_id = emp_id
+	emp_id = mgr_id
+
+
+--- return those emp details whose salary is higher/lower
+--than their manager'salary
+
+select * from (
+select a.*, b.name as manager_name, 
+b.age as mgr_age, b.salary as mgr_salary
+from employees_details a join employees_details b
+on a.mgr_id = b.id)a
+where age > mgr_age 
+
+
+select * from temperatures 
+
+---- less/high --> prev/next
+select * from temperatures 
+
+select * from (
+select a.*, b.temp_date as next_date, 
+b.temperature as next_day_temperature from temperatures a 
+left join temperatures b
+on day(a.temp_date) +1 = day(b.temp_date) 
+)a where a.temperature < a.next_day_temperature 
+
+select * from (
+select a.*, b.temp_date as next_date, 
+b.temperature as next_day_temperature from temperatures a join temperatures b
+on day(a.temp_date) +1 = day(b.temp_date) 
+)a where a.temperature < a.next_day_temperature 
+
+select * from (
+
+select c.*, a.*, b.temp_date as next_date, 
+b.temperature as next_day_temperature from temperatures a full join temperatures b
+on day(a.temp_date) +1 = day(b.temp_date) 
+right join temperatures c
+on day(a.temp_date) = day(c.temp_date) +1
+
+)a where a.temperature < a.next_day_temperature 
+
+select * from temperatures 
+
+select * from
+(select a.*,b.temp_date third_next_date,b.temperature third_next_day_temp from temperatures as a join temperatures as b
+on day(b.temp_date) +2 = day(a.temp_date)) c
+where c.temperature > c.third_next_day_temp
+
+select * from emps
+select * from employees_details
+
+select * from employees_details 
+cross join
+emps
+
+
+select * from
+(select a.*,b.temp_date second_previous_date,b.temperature second_previous_temp from temperatures as a join temperatures as b
+on day(b.temp_date) = day(a.temp_date) + 3)  c
+where c.temperature > c.second_previous_temp
+
+self join---> inner, outer()
+
+
+
+3 students
+6 subjects
+
+
+
+15+1==========> 15
+16===> 16
+17 ===> 17
+
+---subquery or nested query
+------------
+
+select * from employees_details 
+---Q) return those emp details whose salaries are high/lower than 
+--the entire all employees average salary
+
+select * from employees_details where salary > (select avg(salary) from 
+employees_details)
+
+
+56k * 10==> 560+15/11
+15k
+----11
+
+select 575/11
+
+
+
+insert into employees_details values (11, 'gowri', 44, 400, 15000, 
+'Chennai', Null, 2)
+
+sales---> day 1---> A, B, C---> 
+--day 2 ---> 
+
+
+----------
+i) single column & single row (scalared sub query)
+
+select * from employees_details where salary < (select avg(salary) from 
+employees_details)
+
+union all
+
+select * from employees_details where salary > (select avg(salary) from 
+employees_details)
+
+
+
+
+
+---CTEs--> Common table expression
+-------------------------------------
+
+select * from employees_details where salary > (select avg(salary) from 
+employees_details)
+
+with cte as(
+select avg(salary) avg_salary from 
+employees_details)
+select * from employees_details where salary > (select avg_salary
+from cte)
+
+
+sub query---> raw----> process--> food
+ctes ----> readymate---> prepare food
+
+a, b, c, d
+
+a----> d
+
+a----> b---> c---->d
+
+
+
+
+
+ii) single col, multiple rows
+
+select * from employees_details where department in (
+select department from employees_details where salary > 40000 and location
+= 'Bangalore' and age > 40)
+
+
+select * from employees_details where department in (100)
+
+
+
+a, b, x,y,z===> a,b,c,d,e
+a==>a
+x==>x
+
+a===> 100
+a===(200, 100)
+
+
+iii) correlated sub query
+-------------------------------
+select top 3 salary from employees_details order by salary desc
+
+select max(salary) from (
+select * from employees_details where salary < (highest salary))
+
+11---> 
+
+SELECT MAX(SALARY) FROM EMPLOYEES_DETAILS WHERE SALARY < (
+SELECT MAX(SALARY) FROM EMPLOYEES_DETAILS WHERE SALARY = (
+SELECT MAX(SALARY) FROM EMPLOYEES_DETAILS WHERE SALARY < (
+select MAX(SALARY) from employees_details where salary < (select max(salary) from employees_details)
+)))
+
+SELECT * FROM EMPLOYEES_DETAILS WHERE SALARY = (
+SELECT MIN(SALARY) FROM EMPLOYEES_DETAILS WHERE SALARY > (
+SELECT MIN(SALARY) FROM EMPLOYEES_DETAILS WHERE SALARY > (SELECT MIN(SALARY) FROM EMPLOYEES_DETAILS)
+))
+
+
+
+--- iv) multiple cols, multiple rows 
+
+SELECT ID,NAME, SALARY FROM (
+SELECT * FROM EMPLOYEES_DETAILS WHERE SALARY > 30000 AND DEPARTMENT IN (100, 300))A
+WHERE A.ID > 4
+
+SELECT x.*, y.department, a.* FROM EMPLOYEES_DETAILS x join departments y on x.department = y.id
+cross join (
+SELECT AVG(SALARY) AS AVG_SALARY FROM employees_details)a
+
+--- window fun: select *, avg(salary) over() from employees_details
+
+select * from employees_details  a join departments c on a.department = c.id
+left join (
+select department, avg(salary) avg_dept_salary from employees_details
+group by department )b
+on a.department = b.department 
+
+
+
+
+SELECT * FROM DEPARTMENTS
+SELECT * FROM EMPLOYEES_DETAILS 
+
+SELECT * FROM DEPARTMENTS
+
+with cte as(
+select * from employees_details where salary > 50000),
+cte2 as(
+select * from cte where department in (100, 300)), 
+cte3 as(
+select * from cte2 where age_group = 'Middle age' and location = 'chennai')
+select count(id), location from cte3 where age > 40 group by location 
+
+--- 
+id---> 1, 2,3,.......100
+
+---- table ---> numbers----> id----> 1, 2, ......100
+ create table numbers ( id int)
+ insert into numbers values (1) ,(2),(3), (4),(5),(6),(7),(8),(9),(10)
+ select * from numbers
+
+
+ with cte as( 
+ select 1 as id, 1 as squared                
+ union all 
+ select id + 1, (id+1)*(id+1) from cte where id < 100)
+ select * from cte 
+ option (maxrecursion 0)
+
+ select * from numbers
+
+ create table xyz1 (id int identity(1002,12), name varchar(20))
+
+ insert into xyz1 values ('mahi'), ('maha'), ('sam'), ('iyar')
+ select * from xyz 
+
+a--->b----->c------>d 
+a<-------
+
+with cte as( 
+ select 1 as id, 1 as squared                
+ union all 
+ select id + 2, (id+2)*(id+2) from cte where id < 100)
+ select * from cte 
+ option (maxrecursion 0)
+
+ with cte as (
+ select 1 as id 
+ union all
+ select id+1 as id from cte where id < 1000000)
+ select id, 
+ case when id%2 =0 then 'mahi' else 'mahendra' end as name,
+ case when id%2=0 then 1000*id else 100 * id end as salary, 
+  case when id%2=0 then 'data analytics'
+  when id%3 =0 then 'finance'
+  when id%5 =0 then 'data' else 'data science' end as department 
+  from cte 
+  option (maxrecursion 0)
+
+create table ##employess (id int, name varchar(20))
+
+select * from ##employess 
+
+select * from #employess
+
+---create store procedure
+---then only you can alter
+
+alter procedure retrieving1 @x varchar(20), 
+@y varchar(20), @sal int
+as 
+begin 
+select * from employees_details 
+where location = @x and salary > @sal
+end
+
+exec retrieving1 @x = 'Hyderabad', @y = 'middle age', @sal = 50000
+
+
+
+create procedure deleting 
+as 
+begin
+delete from abcd where location = 'hyd' and salary < 50000
+end
+
+exec deleting 
+
+select * from abcd 
+
+
+
+
+alter procedure deleting2 @age int, @salary int, @location varchar(20),
+@age_group varchar(20)
+as 
+begin
+delete from abcd where location = @location and salary > @salary and age_group = @age_group
+or age > @age
+end
+
+exec deleting2 @age = 40, @salary = 50000, @location = 'chennai', 
+@age_group = 'old age'
+
+select * from employees_details
+create procedure updating
+as 
+begin
+update employees_details set name ='anjali' where id = 1
+end
+
+exec updating
+
+alter procedure updating1 @name varchar(20), @location varchar(20), 
+@age_group varchar(20)
+as 
+begin
+update employees_details set name = @name where age_group = @age_group and
+location = @location 
+end
+
+exec updating1 @name = 'haish', @location = 'chennai',@age_group = 'Middle age'
+
+
+select * from employees_details 
+
+--- Window functions
+-----------------------
+----functions==> f(x,y,z)===> expressed value (x+y+z or x*y*z........)
+
+---agg.functions===> sum, min, max, avg, count
+
+select * from employees_details 
+
+----> how many people in bangalore whose age group 
+--is middle and who is earing more than 50000
+
+select location, age_group, count(id) from employees_details where age_group = 'middle age'
+and location = 'bangalore' and salary > 50000
+group by location, age_group
+
+select * from employees_details 
+
+select count(id) as numberof, sum(salary) total, avg(salary) average, 
+min(salary) mini, max(salary) maxi
+from employees_details 
+
+select department, count(id) from employees_details 
+group by department 
+
+select location, count(id) from employees_details 
+group by location 
+
+select department, count(id) as numberof, sum(salary) total, avg(salary) average, 
+min(salary) mini, max(salary) maxi
+from employees_details  group by department 
+
+
+select location, count(id) as numberof, sum(salary) total, avg(salary) average, 
+min(salary) mini, max(salary) maxi
+from employees_details group by location 
+
+
+select *, count(id) from employees_details 
+group by id, name, age, department, salary, location,age_group, mgr_id
+
+--case I
+select *, count(id) over() from employees_details 
+
+--- case II
+select *, count(id) over(order by age desc) from employees_details 
+
+--case III
+select *, count(id) over(partition by department) from employees_details 
+
+--case IV
+with cte as(
+select *, count(id) over(partition by department order by id) as num from 
+employees_details)
+select * from cte where num = 1
+
+---over(), over(order by), over(partition by), over(partition by order by)
+
+--------
+
+select *, sum(salary) over() from employees_details 
+
+select *, sum(salary) over(order by id) from employees_details 
+
+
+select *, sum(salary) over(partition by department) from employees_details 
+
+select *, sum(salary) over(partition by department order by id) from employees_details 
+
+
+select *, avg(salary) over () from employees_details
+
+select *,sum(salary) over(order by name, id) from employees_details
+
+select *, avg(salary)  over ( partition by department order by name) 
+from employees_details
+
+
+
+
+select *, min(salary) over(partition by department order by id),
+max(salary) over(partition by department order by id) from employees_details 
+
+
+select *, sum(salary) over(order by id rows between 1 preceding and 1 preceding)
+from employees_details 
+
+
+select *, sum(salary) over(order by id rows between current row and current row)
+from employees_details 
+
+select *, count(id) over(
+order by id rows between current row 
+and unbounded following) from employees_details
+
+
+
+
+
+---prev row
+--current row
+--following row
+
+rows between 1 and 1
+
+
+select * from employees_details 
+
+--Q) implement running average salaries of total employees. 
+select *, avg(salary) over(order by id) 
+from employees_details
+
+
+-- Q) implement running totals salaries for each department. 
+
+select *, sum(salary) over( partition by department order by id)
+from employees_details
+
+---Q) return the salary of the second next employee who joined from the current employee. 
+
+select * from employees_details 
+
+select *, sum(salary) 
+over(order by id rows between 1 following and 1 following) as next_emp_salary
+from employees_details
+
+
+---prev.emp.salary
+select *, sum(salary) over(order by id rows between 
+1 preceding and 1 preceding)
+from employees_details 
+
+select * from 
+(select *, sum(salary) 
+over( order by id rows between 1 following and 1 following) as next_emp_salary
+from employees_details)a
+where salary > next_emp_salary
+
+
+
+
+---- Main window functions
+---------------------------
+--- Rank, Dense Rank, Row number, Lead, Lag, first_value, last_value, ntile
+
+select * from employees_details 
+
+select * from employees_details where salary = (
+select max(salary) from employees_details)
+---- top 3 highest earining emp details
+select id, name, age, department, salary, location from (
+select *, rank() over(order by salary desc) as rnk, 
+dense_rank() over(order by salary desc) as drnk, 
+row_number() over(order by salary desc) as rn
+from employees_details) as a
+where drnk =2
+
+---- second highest earning emp details in department
+select * from employees_details
+
+select * from (
+select *, 
+dense_rank() over(partition by department order by salary desc) as drnk
+from employees_details
+)a where drnk <= 2
+
+select * from 
+(select *, row_number() over( partition by department order by id desc) as rnk
+from employees_details) a
+where rnk = 1
+
+select *, row_number() over ( partition by department order by id desc) as rn
+from employees_details
+
+select *, lead(age, 2, 0) over(order by id) from employees_details 
+
+select *, lead(name,1,'unknown') over(partition by department, location
+order by id) from employees_details
+
+select sum(salary), location from (
+select *, lag(name) over(partition by department
+order by id) as prev_emp_name 
+from employees_details)a where a.prev_emp_name is null 
+group by location 
+
+select *, first_value(name) over(order by id)
+from employees_details 
+
+select *, last_value(name) over(order by id rows between unbounded 
+preceding and unbounded following) from employees_details
+
+select project, sum(salary) from (
+select *, ntile(3) over(partition by department 
+order by id) as project from employees_details
+)a group by project
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------> rnk, drnk, rn
+100  ---> 1 ---> 1---> 1
+98  -----> 2 ---> 2 2
+98 ----> 2  2 3
+98 ----> 2  2 4
+95 ---> 5  3 5
+94 ---> 6 4 6
+90  ---> 7 5 7
+89 ---> 8 6 8
+89 ---> 8 6 9
+86 --> 10 7 10
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
