@@ -1,5 +1,4 @@
---DAY - 1
-===========
+
 --- from, join, where, group by, having, order by, limit
 
 ----agg.functions
@@ -67,9 +66,6 @@ from employees_details group by location, department;
 insert into employees_details values ( 11, 'manju', 55000, 54, 'Data', 'Bangalore'),
 (12, 'sanju', 43000, 43, 'IT', 'Bangalore');
 
--- DAY - 2
-===================
-
 ----Window functions or analytical functions (extension of agg.functions)
 -------------------------------------------------------------------------
 
@@ -135,8 +131,6 @@ total_salary from employees_details
 
 ---over(), over(order by), over(partition by), over(partition by order by)
 
---DAY - 3
-=================
 ---- range of records concepts, RANK, DENSE RANK, ROW NUMBER, LEAD, LAG, 
 --- FIRST VALUE, LAST VALUE, NTILE 
 
