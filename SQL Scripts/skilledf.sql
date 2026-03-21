@@ -1,4 +1,5 @@
-
+--DAY - 1
+===========
 --- from, join, where, group by, having, order by, limit
 
 ----agg.functions
@@ -66,6 +67,9 @@ from employees_details group by location, department;
 insert into employees_details values ( 11, 'manju', 55000, 54, 'Data', 'Bangalore'),
 (12, 'sanju', 43000, 43, 'IT', 'Bangalore');
 
+-- DAY - 2
+===================
+
 ----Window functions or analytical functions (extension of agg.functions)
 -------------------------------------------------------------------------
 
@@ -131,8 +135,109 @@ total_salary from employees_details
 
 ---over(), over(order by), over(partition by), over(partition by order by)
 
+--DAY - 3
+=================
 ---- range of records concepts, RANK, DENSE RANK, ROW NUMBER, LEAD, LAG, 
---- FIRST VALUE, LAST VALUE, NTILE 
+--- FIRST VALUE, LAST VALUE, NTILE
+
+--1. return the highest earning salary employee details.
+select top 2 * from employees_details order by salary desc;
+
+select * from employees_details
+where 
+salary = (select max(salary) from employees_details);
+
+-- 2. return the second highest earning emp. details.
+select * from employees_details
+where 
+salary = (
+select max(salary) from employees_details 
+where salary < (
+select max(salary) from employees_details 
+	where salary < (select max(salary) from employees_details))
+)
+
+--- Rank, dense rank, row number, lead, lag
+--- highest earning employees details
+
+select * from (
+select *, 
+rank() over(order by salary desc) as rnk, 
+DENSE_RANK() over(order by salary desc) as drnk
+from employees_details
+
+insert into employees_details values (13, 'mahi', 80000, 45, 'Data', 'Bangalore')
+
+
+select * from (
+select *, 
+rank() over(partition by department order by salary desc) as rnk, 
+DENSE_RANK() over(partition by department order by salary desc) as drnk
+from employees_details)a where a.drnk = 2;
+
+select *, sum(salary) over() from employees_details;
+
+select *, rank() over(order by age) from employees_details;
+
+select * from (
+select *, 
+row_number() over(partition by salary order by emp_id desc) as rn
+from employees_details)a where a.rn = 1;
+
+---lead, lag
+
+--- return those emp.details whose salary is higher/lower than the employee
+-- who joined after to them
+select * from (
+select *, lead(age,2) over(order by emp_id)
+next_emp_age from employees_details
+)a where a.age > a.next_emp_age;
+
+
+select *, lag(salary) over( partition by department
+order by emp_id desc) from employees_details;
+
+
+select *, sum(salary) over(partition by department order by emp_id desc rows between 1 preceding 
+and 1 preceding) from employees_details;
+
+
+-1 2
+0 0
+1 2
+
+from -1 to 1
+from -1 to 10;
+
+from 1 to 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1 -- > 2300  1  1
+2 --> 2100   2  2
+3 --> 2100   2  2
+4 --> 1900   4  3
+5 ---> 1900  4  3
+6 -- 1800    6  4
+
+
 
 
 
