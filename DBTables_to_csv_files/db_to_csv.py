@@ -4,13 +4,13 @@ from sqlalchemy import create_engine
 
 # Connection details
 server = r'DESKTOP-DVCTLQ2\SQLEXPRESS'
-database = 'edf'
+database = 'meanlifestudies'
 username = 'mahendra204'
-password = '9441766728'
+password = "9441766728"
 driver = 'ODBC Driver 17 for SQL Server'
 
 # Local storage path for CSV exports
-output_path = r"C:\Users\Admin\Desktop\Dbtables_ful&inc.load"
+output_path = r"C:\Users\Admin\Desktop\Dbtables_loc"
 os.makedirs(output_path, exist_ok=True)
 
 # Build connection string
@@ -30,6 +30,7 @@ for table in tables:
     
     file_path = os.path.join(output_path, f"{table}.csv")
     df.to_json(file_path, index=False)
-    print(f"✅ Exported {table} to {file_path}")
+    print(f"✅ Table {table} transferred to {file_path}")
 
 print("🎉 All tables exported successfully to CSV files.")
+
