@@ -11,7 +11,7 @@ spark = SparkSession.builder \
 server = r"DESKTOP-DVCTLQ2\SQLEXPRESS"
 database = "meanlifestudies"
 username = "mahendra204"
-password = "9441766728"
+password = "XXXXXXXXXXXX"
 driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver"
 
 # Local storage path for JSON exports

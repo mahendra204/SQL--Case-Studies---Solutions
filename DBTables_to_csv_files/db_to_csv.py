@@ -6,7 +6,7 @@ from sqlalchemy import create_engine
 server = r'DESKTOP-DVCTLQ2\SQLEXPRESS'
 database = 'meanlifestudies'
 username = 'mahendra204'
-password = "9441766728"
+password = "XXXXXXXXXXX"
 driver = 'ODBC Driver 17 for SQL Server'
 
 # Local storage path for json exports

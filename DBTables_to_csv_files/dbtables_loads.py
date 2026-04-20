@@ -8,7 +8,7 @@ from sqlalchemy import create_engine
 server = r'DESKTOP-DVCTLQ2\SQLEXPRESS'
 database = 'edf'
 username = 'mahendra204'
-password = '9441766728'
+password = 'xxxxxxxxxxxx'
 driver = 'ODBC Driver 17 for SQL Server'
 
 output_path = r"C:\Users\Admin\Desktop\dataload"
