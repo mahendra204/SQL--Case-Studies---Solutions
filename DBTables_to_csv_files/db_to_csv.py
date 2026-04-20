@@ -9,8 +9,8 @@ username = 'mahendra204'
 password = "9441766728"
 driver = 'ODBC Driver 17 for SQL Server'
 
-# Local storage path for CSV exports
-output_path = r"C:\Users\Admin\Desktop\Dbtables_loc"
+# Local storage path for json exports
+output_path = r"C:\Users\Admin\Desktop\Dbtables_loc2"
 os.makedirs(output_path, exist_ok=True)
 
 # Build connection string
@@ -23,14 +23,16 @@ engine = create_engine(connection_string)
 tables_query = "SELECT name FROM sys.tables;"
 tables = pd.read_sql(tables_query, engine)['name'].tolist()
 
-# Step 2: Export each table to CSV
+print(tables)
+
+# Step 2: Export each table to json
 for table in tables:
     query = f"SELECT * FROM {table}"
     df = pd.read_sql(query, engine)
     
-    file_path = os.path.join(output_path, f"{table}.csv")
+    file_path = os.path.join(output_path, f"{table}.json")
     df.to_json(file_path, index=False)
-    print(f"✅ Table {table} transferred to {file_path}")
+    print(f" Table {table} transferred to {file_path}")
 
-print("🎉 All tables exported successfully to CSV files.")
+print(" All tables exported successfully to JSON files.")
 
