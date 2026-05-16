@@ -1,0 +1,31 @@
+Item location: item location from source where that should exist in location entity.
+
+item location: location should be unique from source MDM. which is there in the location.
+
+finished goods, 
+non-finished goods
+
+
+DQ Rule Rule Detail Comments
+
+NULL check for UNIQUE_LOC
+
+column Remove source records that have NULL UNIQUE_LOC value
+
+NULL check for
+
+RETAIL_SKU_CODE column Remove source records that have RETAIL_SKU_CODE as NULL
+
+RETAIL_SKU_CODE should be
+
+present in ITEM table as
+
+PRODUCTID Referential Integrity check from ITEM_LOCATION to ITEM table
+
+UNIQUE_LOC should be present
+
+in LOCATION table as LOCATION Referential Integrity check from ITEM_LOCATION to LOCATION table
+
+Duplicate check Check and remove duplicates based on key columns (UNIQUE_LOC, PRODUCT_ID)
+
+
